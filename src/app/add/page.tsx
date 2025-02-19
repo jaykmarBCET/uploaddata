@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import useAuthStore from '@/store/user';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 import { PulseLoader } from 'react-spinners';
 import {useRouter} from 'next/navigation'
+
 const Add = () => {
   const { add,user } = useAuthStore();
   const [data, setData] = useState('');
@@ -20,7 +21,7 @@ const Add = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setData(reader.result); // Base64 encoding
+        setData(String(reader.result) ); // Base64 encoding
       };
       reader.readAsDataURL(file);
     }

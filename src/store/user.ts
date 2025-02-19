@@ -9,6 +9,8 @@ export interface User {
   email: string;
   avatar?: string;
   avatarId?: string;
+  cover?:string;
+  coverId?:string
 }
 
 // Define Data Interface
@@ -20,6 +22,7 @@ export interface DataItem {
   type: string;
   createAt:Date;
   updatedAt:Date;
+
 }
 
 // Define Store State and Actions
@@ -33,6 +36,7 @@ interface AuthState {
   cover: (cover: File) => Promise<void>;
   getData: () => Promise<void>;
   deleteData: (dataId: string) => Promise<void>;
+  add:(data:{data:any,message:string,type:string})=>Promise<void>;
   updateData: (data: { dataId: string; type: string; message: string }) => Promise<void>;
 }
 
@@ -138,7 +142,7 @@ const useAuthStore = create<AuthState>((set) => ({
       console.error("Data update error:", error);
     }
   },
-  add: async (data: { data: any; message: string; type: string }) => {
+  add: async (data) => {
     try {
       const response = await axios.post('/api/uploaddata', data, { withCredentials: true });
       

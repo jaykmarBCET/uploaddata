@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { connectDB } from "@/connection/dbConnect";
-import { User } from "@/models/user.model";
+import { User } from "@/models/userModel";
 import { generateToken } from "@/utils/generateToken";
 
 connectDB();

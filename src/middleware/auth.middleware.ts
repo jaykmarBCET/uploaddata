@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { User } from "@/models/user.model";
+import { User } from "@/models/userModel";
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = async (req: NextRequest) => {

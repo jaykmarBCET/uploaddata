@@ -1,10 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
-import { User } from "@/models/user.model";
+import { User } from "@/models/userModel";
 import { connectDB } from "@/connection/dbConnect";
 import { uploader } from "@/utils/uploaddata";
 import { authMiddleware } from "@/middleware/auth.middleware";
 import { deleter } from "@/utils/deletedata";
-import { Data } from "@/models/Data.model";
+import { Data } from "@/models/DataModel";
 
 connectDB()
 export const  POST = async(req:NextRequest)=>{

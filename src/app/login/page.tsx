@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PulseLoader } from 'react-spinners';
 import { motion } from 'framer-motion';
-import Link from 'next/link'
+import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,9 +35,11 @@ const Login = () => {
     currentUser();
   }, []);
 
-  if (user?.email) {
-    router.push('/dashboard')
-  }
+  useEffect(() => {
+    if (user?.email) {
+      router.push('/dashboard'); // Redirect only after render
+    }
+  }, [user, router]); // Fix for the Next.js navigation error
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -73,7 +75,9 @@ const Login = () => {
                 {loading ? <PulseLoader color="#fff" size={8} /> : 'Login'}
               </Button>
             </form>
-            <Link className='text-blue-500' href="register">I do not have an account</Link>
+            <Link className="text-blue-500 block text-center mt-4" href="/register">
+              I do not have an account
+            </Link>
           </CardContent>
         </Card>
       </motion.div>

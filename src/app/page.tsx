@@ -18,7 +18,7 @@ export default function Home() {
 
       <main className="flex flex-col items-center gap-8">
         <h2 className="text-3xl font-bold">Welcome to CodeMember</h2>
-        <HomeDialog backgroundUrl={user?.cover} avatarUrl={user?.avatar} title={user?.name} />
+        <HomeDialog backgroundUrl={String(user?.cover)} avatarUrl={String(user?.avatar)} title={String(user?.email)} />
 
         <div className='flex gap-4'>
           <Link className='px-2 py-1 bg-[#9992] rounded-lg shadow-lg font-bold text-sm' href={"/dashboard"}>Go Dashboard</Link>

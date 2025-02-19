@@ -1,4 +1,4 @@
-import { User } from "@/models/user.model";
+import { User } from "@/models/userModel";
 import jwt from 'jsonwebtoken'
 
 const generateToken = async (userId: string): Promise<string | null> => {

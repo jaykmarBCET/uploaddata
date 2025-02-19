@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import AvatarChanger from "@/components/AvatarChanger";
 import CoverChanger from "@/components/CoverChanger";
 import DataFormate from "@/components/DataFormate";
+import Image from "next/image";
 
 const Dashboard = () => {
   const { user, data, getData } = useAuthStore();
@@ -15,12 +16,14 @@ const Dashboard = () => {
   const [showAvatarChanger, setShowAvatarChanger] = useState(false);
   const [showCoverChanger, setShowCoverChanger] = useState(false);
 
+  // Redirect user if not logged in
   useEffect(() => {
     if (!user?.email) {
       router.push("/login");
     }
   }, [user, router]);
 
+  // Fetch user data
   useEffect(() => {
     getData();
   }, []);
@@ -34,18 +37,20 @@ const Dashboard = () => {
           className="relative w-full h-64 cursor-pointer"
           onClick={() => setShowCoverChanger(true)}
         >
-          <img
+          <Image
             src={user?.cover || "/default-cover.jpg"}
             alt="User Cover"
-            className="w-full h-full object-cover"
+            className=" object-cover"
+            
+            fill={true}
           />
           <div className="absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center opacity-0 hover:opacity-100 transition">
             <span className="text-white text-sm">Change Cover</span>
           </div>
         </div>
 
-        {/* Avatar */}
-        <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+        
+        <div className="absolute -bottom-3  left-10 transform -translate-x-1/2">
           <div
             className="cursor-pointer"
             onClick={() => setShowAvatarChanger(true)}
@@ -81,7 +86,7 @@ const Dashboard = () => {
           {data && data.length > 0 ? (
             data.map((item, idx) => (
               <Card key={idx} className="shadow-lg hover:scale-105 transition">
-                <CardContent className="p-4 ">
+                <CardContent className="p-4">
                   <DataFormate item={item} />
                 </CardContent>
               </Card>

@@ -1,6 +1,4 @@
-
-
-import {useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import useAuthStore from '@/store/user';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -9,29 +7,36 @@ import { PulseLoader } from 'react-spinners';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-const CoverChanger = ({close}) => {
+// Define the types for the props
+interface CoverChangerProps {
+  close: (value: boolean) => void; // The 'close' function expects a boolean
+}
+
+const CoverChanger: React.FC<CoverChangerProps> = ({ close }) => {
   const { user, cover } = useAuthStore();
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(user?.avatar || '');
+  const [image, setImage] = useState<string | null>(null); // image can be a string or null
+  const [preview, setPreview] = useState<string>(user?.avatar || ''); // preview is always a string
   const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  // Handle image file change
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
-        setImage(reader.result); // Base64 string
+        setPreview(reader.result as string); // We know reader.result is a string
+        setImage(reader.result as string); // Store base64 string as image
       };
       reader.readAsDataURL(file);
     }
   };
 
+  // Handle uploading of the image
   const handleUpload = async () => {
     if (!image) return;
     setLoading(true);
     try {
-      await cover(image);
+      await cover(image); // Assuming cover is a function that takes the image as a parameter
     } catch (error) {
       console.error('Error updating cover:', error);
     } finally {
@@ -46,14 +51,18 @@ const CoverChanger = ({close}) => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
-
         <Card className="w-96 p-6 shadow-lg">
-          <button className='btn px-2 py-1 font-semibold bg-[#99999922] rounded-lg' onClick={()=>close(false)}>Close</button>
+          <button className="btn px-2 py-1 font-semibold bg-[#99999922] rounded-lg" onClick={() => close(false)}>
+            Close
+          </button>
           <CardContent>
             <div className="flex justify-center mb-4">
               <Avatar>
-                <AvatarImage src={preview} alt="User Cover" />
-                <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                {preview ? (
+                  <AvatarImage src={preview} alt="User Cover" />
+                ) : (
+                  <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                )}
               </Avatar>
             </div>
             <Input type="file" accept="image/*" onChange={handleImageChange} />
