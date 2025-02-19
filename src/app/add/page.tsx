@@ -9,6 +9,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@
 import { PulseLoader } from 'react-spinners';
 import {useRouter} from 'next/navigation'
 
+
 const Add = () => {
   const { add,user } = useAuthStore();
   const [data, setData] = useState('');
@@ -16,8 +17,8 @@ const Add = () => {
   const [type, setType] = useState('image');
   const [loading, setLoading] = useState(false);
   const router = useRouter()
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {

@@ -9,7 +9,7 @@ connectDB();
 export const GET = async (req: NextRequest) => {
     try {
         const user = await authMiddleware(req);
-        
+
         if (!user) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
@@ -25,9 +25,10 @@ export const GET = async (req: NextRequest) => {
         res.headers.set('Set-Cookie', `token=${token}; HttpOnly; Secure; Path=/`);
         return res;
     } catch (error) {
-        return NextResponse.json(
-            { message: "Something went wrong", error: error instanceof Error ? error.message : error },
-            { status: 500 }
-        );
+        console.error("Error:", error);
+
+        const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+
+        return NextResponse.json({ message: "Something went wrong", error: errorMessage }, { status: 500 });
     }
 };

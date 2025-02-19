@@ -1,33 +1,31 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const DataSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", 
+      ref: "User",
       required: true,
     },
     dataUrl: {
       type: String,
       required: true,
-      trim: true, 
+      trim: true,
     },
-    dataId:{
-      type:String,
+    dataId: {
+      type: String,
     },
     type: {
       type: String,
-      default: "unknown", 
+      default: "unknown",
     },
     message: {
       type: String,
-      default: "", 
+      default: "",
     },
   },
   { timestamps: true }
 );
 
-
 const Data = mongoose.models.Data || mongoose.model("Data", DataSchema);
-
-export { Data };
+export  { Data };

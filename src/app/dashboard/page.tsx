@@ -15,8 +15,12 @@ const Dashboard = () => {
   const router = useRouter();
   const [showAvatarChanger, setShowAvatarChanger] = useState(false);
   const [showCoverChanger, setShowCoverChanger] = useState(false);
-
-  // Redirect user if not logged in
+   const handelAvatarCard = ()=>{
+    setShowAvatarChanger(false)
+   }
+   const handelCoverCard = ()=>{
+    setShowCoverChanger(false)
+   }
   useEffect(() => {
     if (!user?.email) {
       router.push("/login");
@@ -26,7 +30,7 @@ const Dashboard = () => {
   // Fetch user data
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
@@ -74,8 +78,8 @@ const Dashboard = () => {
       </div>
 
       {/* Avatar & Cover Changer Modals */}
-      {showAvatarChanger && <AvatarChanger close={setShowAvatarChanger} />}
-      {showCoverChanger && <CoverChanger close={setShowCoverChanger} />}
+      {showAvatarChanger && <AvatarChanger close={handelAvatarCard} />}
+      {showCoverChanger && <CoverChanger close={handelCoverCard} />}
 
       {/* Data Section */}
       <div className="mt-8">

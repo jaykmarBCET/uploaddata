@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ReactPlayer from "react-player";
 import useAuthStore from "@/store/user";
+import Image from "next/image";
 
 interface NoteProps {
   item: {
@@ -83,7 +84,7 @@ const NoteCard: React.FC<NoteProps> = ({ item }) => {
       {item.type === "video" ? (
         <ReactPlayer url={item.dataUrl} width="100%" controls height="auto" />
       ) : (
-        <img src={item.dataUrl} alt="Note" className="w-full h-40 object-cover rounded-md" />
+        <Image src={item.dataUrl} width={1000} height={500} alt="Note" className="w-full object-fill h-40 rounded-md" />
       )}
 
       <p className="mt-2 text-gray-700 text-sm">{item.message || "No message"}</p>

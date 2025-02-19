@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import useAuthStore from "@/store/user";
 import { useRouter } from "next/navigation";
 import { DataItem } from "@/store/user";
@@ -14,7 +14,9 @@ function Video() {
   const [isMuted, setIsMuted] = useState(false);
   const playerRef = useRef<ReactPlayer>(null);
   const { user, data } = useAuthStore();
-  const videos = data?.filter((item) => item.type !== "image") || [];
+
+  // Memoized video list to prevent unnecessary re-renders
+  const videos = useMemo(() => data?.filter((item) => item.type !== "image") || [], [data]);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -65,6 +67,7 @@ function Video() {
       {/* Video Player Section */}
       <div className="lg:w-[75%] w-full">
         <motion.h1
+          layoutId="video-title"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -85,7 +88,6 @@ function Video() {
               url={play?.dataUrl}
               controls
               playing
-              
               muted={isMuted}
             />
           </motion.div>
@@ -103,7 +105,7 @@ function Video() {
               className="w-full"
             >
               <Card
-                onClick={() => setPlay(item)}
+                onClick={() => play?._id !== item._id && setPlay(item)} // Prevent redundant state updates
                 className={`cursor-pointer transition-all ${
                   item._id === play?._id ? "bg-blue-500 text-white" : "bg-blue-300"
                 }`}

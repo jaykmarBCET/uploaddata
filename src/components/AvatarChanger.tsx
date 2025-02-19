@@ -8,19 +8,23 @@ import { PulseLoader } from 'react-spinners';
 import { motion } from 'framer-motion';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-const AvatarChanger = ({close}) => {
+interface Close{
+  close:()=>void;
+}
+ 
+const AvatarChanger = ({close}:Close) => {
   const { user, avatar } = useAuthStore();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const [preview, setPreview] = useState(user?.avatar || '');
   const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
-        setImage(reader.result); // Base64 string
+        setPreview(reader.result as string);
+        setImage(reader.result as string); // Base64 string
       };
       reader.readAsDataURL(file);
     }
@@ -46,7 +50,7 @@ const AvatarChanger = ({close}) => {
         transition={{ duration: 0.3 }}
       >
         <Card className="w-96 p-6 shadow-lg">
-          <button className='btn px-2 py-1 font-semibold bg-[#99999922] rounded-lg' onClick={()=>close(false)}>Close</button>
+          <button className='btn px-2 py-1 font-semibold bg-[#99999922] rounded-lg' onClick={()=>close()}>Close</button>
           <CardContent>
             <div className="flex justify-center mb-4">
               <Avatar>

@@ -14,19 +14,20 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { register, currentUser, user } = useAuthStore();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    setError('');
     setLoading(true);
     try {
       await register({ name, email, password });
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      console.log("error",err);
+      setError('Registration failed');
     } finally {
       setLoading(false);
     }
@@ -34,7 +35,7 @@ const Register = () => {
 
   useEffect(() => {
     currentUser();
-  }, []);
+  }, [currentUser]);
 
   if (user?.email) {
     router.push('/');

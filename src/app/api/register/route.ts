@@ -29,10 +29,10 @@ export const POST = async (req: NextRequest) => {
         }
 
         const token = await generateToken(user._id);
-        const res = NextResponse.json({ 
-            _id: user._id, 
-            name: user.name, 
-            email: user.email 
+        const res = NextResponse.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email
         }, { status: 200 });
 
         res.headers.append("Set-Cookie", `token=${token}; HttpOnly; Secure; Path=/; Max-Age=604800`);
@@ -40,6 +40,9 @@ export const POST = async (req: NextRequest) => {
         return res;
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ message: "Something went wrong", error: error.message }, { status: 500 });
+
+        const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+
+        return NextResponse.json({ message: "Something went wrong", error: errorMessage }, { status: 500 });
     }
 };

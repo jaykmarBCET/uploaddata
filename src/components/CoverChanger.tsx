@@ -9,13 +9,13 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 // Define the types for the props
 interface CoverChangerProps {
-  close: (value: boolean) => void; // The 'close' function expects a boolean
+  close: (value: boolean) => void; 
 }
 
 const CoverChanger: React.FC<CoverChangerProps> = ({ close }) => {
   const { user, cover } = useAuthStore();
   const [image, setImage] = useState<string | null>(null); // image can be a string or null
-  const [preview, setPreview] = useState<string>(user?.avatar || ''); // preview is always a string
+  const [preview, setPreview] = useState<string>(user?.cover || ''); // preview is always a string
   const [loading, setLoading] = useState(false);
 
   // Handle image file change
@@ -24,8 +24,8 @@ const CoverChanger: React.FC<CoverChangerProps> = ({ close }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result as string); // We know reader.result is a string
-        setImage(reader.result as string); // Store base64 string as image
+        setPreview(reader.result as string); 
+        setImage(reader.result as string); 
       };
       reader.readAsDataURL(file);
     }

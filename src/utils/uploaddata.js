@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary"
 
 cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -7,7 +7,7 @@ cloudinary.config({
   secure: process.env.CLOUDINARY_SECURE === "true",
 });
 
-const uploader = async (StreamData: string | Buffer): Promise<{ publicId: string; url: string }> => {
+const uploader = async (StreamData) => {
   try {
     const response = await cloudinary.uploader.upload(StreamData, {
       resource_type: "auto",
@@ -19,5 +19,4 @@ const uploader = async (StreamData: string | Buffer): Promise<{ publicId: string
     throw new Error("Image upload failed");
   }
 };
-
 export { uploader };
