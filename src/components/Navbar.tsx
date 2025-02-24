@@ -1,42 +1,87 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import useAuthStore from '@/store/user';
+import Link from "next/link";
+
+import useAuthStore from '@/store/user'
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 
 export default function Navbar() {
   const { user } = useAuthStore();
 
   return (
-    <nav className="flex justify-between items-center flex-wrap p-4 bg-white shadow-md rounded-lg">
-      <h1 className="text-xl font-bold">CodeMember</h1>
-      <div className="flex gap-4">
-
-
+    <nav className="flex justify-between items-center p-4 bg-white shadow-lg rounded-xl">
+      <h1 className="text-2xl font-bold">CodeMember</h1>
+      <div className="hidden md:flex gap-4">
         {user?.email ? (
           <>
-            <Link href="/dashboard" className="text-green-500 hover:underline">
-              Dashboard
-            </Link>
-            <Link href="/add" className="text-blue-500 hover:underline">
-              Add Data
-            </Link>
-            <Link href='/video' className="text-blue-500 hover:underline">Videos</Link>
-            <Link href={'/image'} className="text-blue-500 hover:underline" >Images</Link>
-            
+            <Button variant="ghost" asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/add">Add Data</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/video">Videos</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/image">Images</Link>
+            </Button>
           </>
-
         ) : (
           <>
-            <Link href="/login" className="text-blue-500 hover:underline">  
-               Login
-            </Link>
-            <Link href="/register" className="text-blue-500 hover:underline">
-              Register
-            </Link>
-
+            <Button variant="outline" asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button variant="default" asChild>
+              <Link href="/register">Register</Link>
+            </Button>
           </>
         )}
-        <Link className="text-blue-500 hover:underline" href={'/'}>Home</Link>
+        <Button variant="ghost" asChild>
+          <Link href="/">Home</Link>
+        </Button>
+      </div>
+      {/* Mobile Menu */}
+      <div className="md:hidden">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {user?.email ? (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/add">Add Data</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/video">Videos</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/image">Images</Link>
+                </DropdownMenuItem>
+              </>
+            ) : (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link href="/login">Login</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/register">Register</Link>
+                </DropdownMenuItem>
+              </>
+            )}
+            <DropdownMenuItem asChild>
+              <Link href="/">Home</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );

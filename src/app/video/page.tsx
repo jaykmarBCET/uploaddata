@@ -15,27 +15,27 @@ function Video() {
   const playerRef = useRef<ReactPlayer>(null);
   const { user, data } = useAuthStore();
 
-  // Memoized video list to prevent unnecessary re-renders
+  
   const videos = useMemo(() => data?.filter((item) => item.type !== "image") || [], [data]);
 
-  // Redirect if not logged in
+
   useEffect(() => {
     if (!user?.email) {
       router.push("/login");
     }
   }, [user, router]);
 
-  // Handle keyboard shortcuts
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!play) return;
       const currentIndex = videos.findIndex((item) => item._id === play._id);
 
       switch (e.key.toLowerCase()) {
-        case "m": // Mute/Unmute
+        case "m": 
           setIsMuted((prev) => !prev);
           break;
-        case "f": // Fullscreen
+        case "f": 
           if (playerRef.current) {
             const playerElement = playerRef.current.getInternalPlayer();
             if (playerElement?.requestFullscreen) {
@@ -43,12 +43,12 @@ function Video() {
             }
           }
           break;
-        case "arrowright": // Next Video
+        case "arrowright": 
           if (currentIndex < videos.length - 1) {
             setPlay(videos[currentIndex + 1]);
           }
           break;
-        case "arrowleft": // Previous Video
+        case "arrowleft": 
           if (currentIndex > 0) {
             setPlay(videos[currentIndex - 1]);
           }
@@ -64,7 +64,7 @@ function Video() {
 
   return (
     <div className="w-full mt-4 px-4 h-[80vh] flex flex-col lg:flex-row">
-      {/* Video Player Section */}
+   
       <div className="lg:w-[75%] w-full">
         <motion.h1
           layoutId="video-title"
@@ -105,7 +105,7 @@ function Video() {
               className="w-full"
             >
               <Card
-                onClick={() => play?._id !== item._id && setPlay(item)} // Prevent redundant state updates
+                onClick={() => play?._id !== item._id && setPlay(item)} 
                 className={`cursor-pointer transition-all ${
                   item._id === play?._id ? "bg-blue-500 text-white" : "bg-blue-300"
                 }`}
